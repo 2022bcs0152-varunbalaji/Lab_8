@@ -1,0 +1,6 @@
+outs:
+- md5: 664447b561d5af7f77fdef00befee49a
+  size: 341943
+  isexec: true
+  hash: md5
+  path: housing_5k.csv
