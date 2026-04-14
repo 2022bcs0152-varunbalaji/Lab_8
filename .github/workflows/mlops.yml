@@ -32,7 +32,7 @@ jobs:
         run: |
           pwd
           ls -R
- 
+
       - name: Pull dataset from DVC
         run: dvc pull -v
 
@@ -40,7 +40,7 @@ jobs:
         run: |
           python -c "
           import pandas as pd, json
-          df = pd.read_csv('data/housing.csv')
+          df = pd.read_csv('data/housing_5k.csv')
           info = {
               'dataset_rows': int(len(df)),
               'dataset_columns': int(len(df.columns))
