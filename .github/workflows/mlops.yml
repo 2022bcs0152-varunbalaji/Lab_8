@@ -7,6 +7,7 @@ on:
 jobs:
   train-and-evaluate:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install dvc[s3] pandas scikit-learn
+          pip install dvc[s3]
 
       - name: Configure AWS credentials
         run: |
@@ -28,13 +29,21 @@ jobs:
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
 
-      - name: Debug files
+
+      - name: Debug repo structure
         run: |
           pwd
           ls -R
 
+
       - name: Pull dataset from DVC
-        run: dvc pull -v
+        run: |
+          dvc pull data/housing_5k.csv.dvc -v
+
+
+      - name: Check data folder
+        run: ls -R data
+
 
       - name: Generate dataset info
         run: |
@@ -51,7 +60,7 @@ jobs:
           "
 
       - name: Train model
-        run: python src/train.py
+        run: python app/train.py
 
       - name: Save previous metrics (if exists)
         run: |
